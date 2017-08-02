@@ -141,7 +141,7 @@
                         <exclude>src/main/resources/**</exclude>
                         <exclude>**/build/**</exclude>
                         <exclude>share/**</exclude>
-                        <exclude>**/*.woff2</exclude>
+                        <exclude>src/main/java/gat/radix/CharSequences.java</exclude>
                         <exclude>**/*.otf</exclude>
                         <exclude>**/*.graffle</exclude>
                         <exclude>**/*.jpeg</exclude>

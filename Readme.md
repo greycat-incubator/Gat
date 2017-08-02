@@ -1,7 +1,7 @@
 # Greycat Additional Types
 
 The Greycat Additional Types (gat) project is a plugin for [Greycat](https://github.com/datathings/greycat) offering additional types to the one natively handled by Greycat.
-The project currently offers 2 familly of additional types, sets and gat.bitset. More could be added in the future.
+The project currently offers 3 familly of additional types, sets  bitset and radix trees. More could be added in the future.
 
 ## Why additional types?
 
@@ -40,3 +40,6 @@ These two custom types are in fact wrapper of regular Java Class, these any modi
 
 ### IntSet and LongSet
 These two are native custom types, yet in order to reduce the size of stored nodes, only the keys are stored and the information required by the set are recomputed on the fly at every load.
+
+### Radix Tree
+Two version of radix trees are implemented here, one using directly the struct of Greycat to represent the nodes of a radix tree and another one based on arrays. They performs similarly and offers similar function. 
