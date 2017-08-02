@@ -88,7 +88,7 @@ public class CTIntSet extends BaseCustomType {
     public boolean put(int insertKey) {
         boolean result = false;
 
-        if (keys == null) {
+        if (hashs == null) {
             reallocate(Constants.MAP_INITIAL_CAPACITY);
             addKey(insertKey);
             setHash(HashHelper.intHash(insertKey, capacity * 2), 0);
@@ -128,7 +128,7 @@ public class CTIntSet extends BaseCustomType {
 
     public boolean contains(int requestKey) {
         boolean result = false;
-        if (keys != null) {
+        if (hashs != null) {
             final int hashIndex = HashHelper.intHash(requestKey, capacity * 2);
             int m = hash(hashIndex);
             while (m >= 0) {
@@ -144,7 +144,7 @@ public class CTIntSet extends BaseCustomType {
 
     public int index(int requestKey) {
         int result = -1;
-        if (keys != null) {
+        if (hashs != null) {
             final int hashIndex = HashHelper.intHash(requestKey, capacity * 2);
             int m = hash(hashIndex);
             while (m >= 0) {
@@ -160,7 +160,7 @@ public class CTIntSet extends BaseCustomType {
 
     public boolean remove(int requestKey) {
         boolean result = false;
-        if (keys != null && mapSize != 0) {
+        if (hashs != null && mapSize != 0) {
             int hashCapacity = capacity * 2;
             int hashIndex = HashHelper.intHash(requestKey, hashCapacity);
             int m = hash(hashIndex);

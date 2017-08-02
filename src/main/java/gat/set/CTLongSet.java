@@ -88,7 +88,7 @@ public class CTLongSet extends BaseCustomType {
     public boolean put(long insertKey) {
         boolean result = false;
 
-        if (keys == null) {
+        if (hashs == null) {
             reallocate(Constants.MAP_INITIAL_CAPACITY);
             addKey(insertKey);
             setHash((int) HashHelper.longHash(insertKey, capacity * 2), 0);
@@ -128,7 +128,7 @@ public class CTLongSet extends BaseCustomType {
 
     public boolean contains(long requestKey) {
         boolean result = false;
-        if (keys != null) {
+        if (hashs != null) {
             final int hashIndex = (int) HashHelper.longHash(requestKey, capacity * 2);
             int m = hash(hashIndex);
             while (m >= 0) {
@@ -144,7 +144,7 @@ public class CTLongSet extends BaseCustomType {
 
     public int index(long requestKey) {
         int result = -1;
-        if (keys != null) {
+        if (hashs != null) {
             final int hashIndex = (int) HashHelper.longHash(requestKey, capacity * 2);
             int m = hash(hashIndex);
             while (m >= 0) {
@@ -160,7 +160,7 @@ public class CTLongSet extends BaseCustomType {
 
     public boolean remove(long requestKey) {
         boolean result = false;
-        if (keys != null && mapSize != 0) {
+        if (hashs != null && mapSize != 0) {
             int hashCapacity = capacity * 2;
             int hashIndex = (int) HashHelper.longHash(requestKey, hashCapacity);
             int m = hash(hashIndex);

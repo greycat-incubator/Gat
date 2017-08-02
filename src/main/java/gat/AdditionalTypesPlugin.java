@@ -34,7 +34,7 @@ public class AdditionalTypesPlugin implements Plugin {
                 .setFactory(new TypeFactory() {
                     @Override
                     public Object wrap(final EStructArray backend) {
-                        return new CTBitset(backend);
+                        return new CTIntSet(backend);
                     }
                 });
         graph.typeRegistry()

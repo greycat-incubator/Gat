@@ -7,8 +7,6 @@ import greycat.struct.EStructArray;
 import greycat.struct.IntArray;
 import greycat.utility.HashHelper;
 
-import java.util.List;
-
 public class CTBitset extends BaseCustomType {
     public static final String BITS = "bits";
     protected static final int BITS_H = HashHelper.hash(BITS);
