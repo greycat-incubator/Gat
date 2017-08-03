@@ -46,11 +46,11 @@ class CTBitsetTest {
     @Test
     public void cardinality() {
         CTBitset bitset = (CTBitset) n.getOrCreateCustom("bitset", CTBitset.NAME);
-        bitset.add(0);
-        bitset.add(10);
-        bitset.add(17);
-        bitset.add(2);
-        bitset.add(4);
+        bitset.set(0);
+        bitset.set(10);
+        bitset.set(17);
+        bitset.set(2);
+        bitset.set(4);
 
         assertEquals(5,bitset.cardinality());
 
@@ -59,11 +59,11 @@ class CTBitsetTest {
     @Test
     public void reload() {
         CTBitset bitset = (CTBitset) n.getOrCreateCustom("bitset", CTBitset.NAME);
-        bitset.add(0);
-        bitset.add(10);
-        bitset.add(17);
-        bitset.add(2);
-        bitset.add(4);
+        bitset.set(0);
+        bitset.set(10);
+        bitset.set(17);
+        bitset.set(2);
+        bitset.set(4);
 
         bitset.save();
         CTBitset bitset2 = (CTBitset) n.getOrCreateCustom("bitset", CTBitset.NAME);
@@ -75,11 +75,11 @@ class CTBitsetTest {
     @Test
     public void next() {
         CTBitset bitset = (CTBitset) n.getOrCreateCustom("bitset", CTBitset.NAME);
-        bitset.add(0);
-        bitset.add(10);
-        bitset.add(17);
-        bitset.add(2);
-        bitset.add(4);
+        bitset.set(0);
+        bitset.set(10);
+        bitset.set(17);
+        bitset.set(2);
+        bitset.set(4);
         assertEquals(0,bitset.nextSetBit(0));
         assertEquals(17,bitset.nextSetBit(11));
     }

@@ -47,11 +47,11 @@ class CTBitmapTest {
     @Test
     public void cardinality() {
         CTBitmap bitset = (CTBitmap) n.getOrCreateCustom("bitset", CTBitmap.NAME);
-        bitset.add(0);
-        bitset.add(10);
-        bitset.add(17);
-        bitset.add(2);
-        bitset.add(4);
+        bitset.set(0);
+        bitset.set(10);
+        bitset.set(17);
+        bitset.set(2);
+        bitset.set(4);
 
         assertEquals(5,bitset.cardinality());
 
@@ -60,11 +60,11 @@ class CTBitmapTest {
     @Test
     public void reload() {
         CTBitmap bitset = (CTBitmap) n.getOrCreateCustom("bitset", CTBitmap.NAME);
-        bitset.add(0);
-        bitset.add(10);
-        bitset.add(17);
-        bitset.add(2);
-        bitset.add(4);
+        bitset.set(0);
+        bitset.set(10);
+        bitset.set(17);
+        bitset.set(2);
+        bitset.set(4);
 
         bitset.save();
         CTBitmap bitset2 = (CTBitmap) n.getOrCreateCustom("bitset", CTBitmap.NAME);
@@ -76,11 +76,11 @@ class CTBitmapTest {
     @Test
     public void next() {
         CTBitmap bitset = (CTBitmap) n.getOrCreateCustom("bitset", CTBitmap.NAME);
-        bitset.add(0);
-        bitset.add(10);
-        bitset.add(17);
-        bitset.add(2);
-        bitset.add(4);
+        bitset.set(0);
+        bitset.set(10);
+        bitset.set(17);
+        bitset.set(2);
+        bitset.set(4);
         assertEquals(0,bitset.nextSetBit(0));
         assertEquals(17,bitset.nextSetBit(11));
     }
