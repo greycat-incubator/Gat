@@ -32,13 +32,20 @@ public class CTIntSet extends BaseCustomType {
     private int mapSize = 0;
     private int capacity = 0;
 
-    public static final String KEYS = "keys";
-    protected static final int KEYS_H = HashHelper.hash(KEYS);
+    private static final String KEYS = "keys";
+    private static final int KEYS_H = HashHelper.hash(KEYS);
     public static final String NAME = "IntSet";
 
     private int[] nexts = null;
     private int[] hashs = null;
 
+    /**
+     * Constructor that will look for a root node, if not existing will create a new one.
+     * Then will look for the int set in the KEYS attribute and load it, if none is existing
+     * then a new set is created.
+     *
+     * @param p_backend
+     */
     public CTIntSet(EStructArray p_backend) {
         super(p_backend);
         root = p_backend.root();
@@ -53,7 +60,7 @@ public class CTIntSet extends BaseCustomType {
 
     }
 
-    protected int key(int i) {
+    private int key(int i) {
         return keys.get(i);
     }
 
@@ -100,6 +107,10 @@ public class CTIntSet extends BaseCustomType {
         }
     }
 
+    /**
+     * Insert a new key in the set
+     * @return true if inserted, false if already existing
+     */
     public boolean put(int insertKey) {
         boolean result = false;
 
@@ -141,6 +152,11 @@ public class CTIntSet extends BaseCustomType {
         return result;
     }
 
+    /**
+     * Check whether a key is present in the set
+     * @param requestKey
+     * @return true if yes false otherwise
+     */
     public boolean contains(int requestKey) {
         boolean result = false;
         if (hashs != null) {
@@ -157,6 +173,11 @@ public class CTIntSet extends BaseCustomType {
         return result;
     }
 
+    /**
+     * Check whether a key is present in the set
+     * @param requestKey
+     * @return the position of the key is present  -1 otherwise
+     */
     public int index(int requestKey) {
         int result = -1;
         if (hashs != null) {
@@ -173,6 +194,11 @@ public class CTIntSet extends BaseCustomType {
         return result;
     }
 
+    /**
+     * Remove a key from the set
+     * @param requestKey
+     * @return true if key was removed, false if key was absent from the set
+     */
     public boolean remove(int requestKey) {
         boolean result = false;
         if (hashs != null && mapSize != 0) {
@@ -236,10 +262,17 @@ public class CTIntSet extends BaseCustomType {
         return result;
     }
 
+    /**
+     * extract the set under the form of an array of int
+     * @return
+     */
     public int[] extract() {
         return keys.extract();
     }
 
+    /**
+     * @return the size of the set
+     */
     public int size() {
         return mapSize;
     }

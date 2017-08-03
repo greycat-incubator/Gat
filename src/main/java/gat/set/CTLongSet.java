@@ -38,7 +38,13 @@ public class CTLongSet extends BaseCustomType {
 
     private int[] nexts = null;
     private int[] hashs = null;
-
+    /**
+     * Constructor that will look for a root node, if not existing will create a new one.
+     * Then will look for the int set in the KEYS attribute and load it, if none is existing
+     * then a new set is created.
+     *
+     * @param p_backend
+     */
     public CTLongSet(EStructArray p_backend) {
         super(p_backend);
         EStruct root = p_backend.root();
@@ -100,6 +106,10 @@ public class CTLongSet extends BaseCustomType {
         }
     }
 
+    /**
+     * Insert a new key in the set
+     * @return true if inserted, false if already existing
+     */
     public boolean put(long insertKey) {
         boolean result = false;
 
@@ -141,6 +151,11 @@ public class CTLongSet extends BaseCustomType {
         return result;
     }
 
+    /**
+     * Check whether a key is present in the set
+     * @param requestKey
+     * @return true if yes false otherwise
+     */
     public boolean contains(long requestKey) {
         boolean result = false;
         if (hashs != null) {
@@ -157,6 +172,11 @@ public class CTLongSet extends BaseCustomType {
         return result;
     }
 
+    /**
+     * Check whether a key is present in the set
+     * @param requestKey
+     * @return the position of the key is present  -1 otherwise
+     */
     public int index(long requestKey) {
         int result = -1;
         if (hashs != null) {
@@ -173,6 +193,11 @@ public class CTLongSet extends BaseCustomType {
         return result;
     }
 
+    /**
+     * Remove a key from the set
+     * @param requestKey
+     * @return true if key was removed, false if key was absent from the set
+     */
     public boolean remove(long requestKey) {
         boolean result = false;
         if (hashs != null && mapSize != 0) {
@@ -236,10 +261,17 @@ public class CTLongSet extends BaseCustomType {
         return result;
     }
 
+    /**
+     * extract the set under the form of an array of long
+     * @return
+     */
     public long[] extract() {
         return keys.extract();
     }
 
+    /**
+     * @return the size of the set
+     */
     public int size() {
         return mapSize;
     }

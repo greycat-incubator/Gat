@@ -17,6 +17,8 @@ package gat;
 
 import gat.bitmap.CTBitmap;
 import gat.bitset.CTBitset;
+import gat.radix.array.RadixTreeArray;
+import gat.radix.struct.RadixTreeStruct;
 import gat.set.CTIntSet;
 import gat.set.CTLongSet;
 import greycat.Graph;
@@ -60,6 +62,24 @@ public class AdditionalTypesPlugin implements Plugin {
                         return new CTLongSet(backend);
                     }
                 });
+
+        graph.typeRegistry()
+                .getOrCreateDeclaration(RadixTreeArray.NAME)
+                .setFactory(new TypeFactory() {
+                    @Override
+                    public Object wrap(final EStructArray backend) {
+                        return new RadixTreeArray(backend);
+                    }
+                });
+        graph.typeRegistry()
+                .getOrCreateDeclaration(RadixTreeStruct.NAME)
+                .setFactory(new TypeFactory() {
+                    @Override
+                    public Object wrap(final EStructArray backend) {
+                        return new RadixTreeStruct(backend);
+                    }
+                });
+
     }
 
     @Override
