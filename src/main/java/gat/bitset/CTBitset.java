@@ -23,17 +23,27 @@ import greycat.struct.IntArray;
 import greycat.utility.HashHelper;
 
 public class CTBitset extends BaseCustomType {
-    public static final String BITS = "bits";
-    protected static final int BITS_H = HashHelper.hash(BITS);
+
+    //Name declared for the Plugin
     public static final String NAME = "BitSet";
+
+    //Name Of the attribute
+    private static final String BITS = "bits";
+    private static final int BITS_H = HashHelper.hash(BITS);
 
     private IntArray gBits;
     private BitSet bitset;
-    private EStruct root;
 
+    /**
+     * Constructor that will look for a root node, if not existing will create a new one.
+     * Then will look for the bitset in the BITS attribute and load it, if none is existing
+     * then a new Bitset is created.
+     *
+     * @param p_backend
+     */
     public CTBitset(EStructArray p_backend) {
         super(p_backend);
-        root = p_backend.root();
+        EStruct root = p_backend.root();
         if (root == null) {
             root = p_backend.newEStruct();
             p_backend.setRoot(root);
@@ -42,45 +52,99 @@ public class CTBitset extends BaseCustomType {
         bitset = new BitSet(gBits.extract());
     }
 
+    /**
+     * Clear the bitset
+     */
     public void clear() {
         gBits.initWith(new int[0]);
         bitset.clear();
     }
 
-    public boolean add(int index) {
+    /**
+     * Set the bit at index to one
+     *
+     * @param index
+     * @return true if done false if already set
+     */
+    public boolean set(int index) {
         return bitset.add(index);
     }
 
-    public void clear(int index) {
+    /**
+     * Unset the bit at the given index
+     *
+     * @param index
+     * @return true if done false if already unset
+     */
+    public void unset(int index) {
         bitset.clear(index);
     }
 
+    /**
+     * @return the size of the bitset
+     */
     public int size() {
         return bitset.size();
     }
 
+    /**
+     * @return the cardinality, i.e., the number of bit set, in the bitset
+     */
     public int cardinality() {
         return bitset.cardinality();
     }
 
+    /**
+     * determine whether the bit at index is set or not
+     *
+     * @param index
+     * @return
+     */
     public boolean get(int index) {
         return bitset.get(index);
     }
 
+    /**
+     * determine the next set bit after startIndex
+     *
+     * @param startIndex
+     * @return
+     */
     public int nextSetBit(int startIndex) {
         return bitset.nextSetBit(startIndex);
     }
 
-    public BitSetIterator iterator() { return bitset.iterator();}
+    /**
+     * Iterator over the set bits
+     *
+     * @return
+     */
+    public BitSetIterator iterator() {
+        return bitset.iterator();
+    }
 
+    /**
+     * save the current bitset in the BITS attribute of the root node.
+     * Must be called by the user whenever done with the modification of the bitset
+     */
     public void save() {
         gBits.initWith(bitset.toIntArray());
     }
 
+    /**
+     * getter for the bitset
+     *
+     * @return the bitmap
+     */
     public BitSet getBitset() {
         return bitset;
     }
 
+    /**
+     * Setter for the bitset, to use in case a new bitset was created and should be saved instead of the former one.
+     *
+     * @param bitSet
+     */
     public void setBitset(BitSet bitSet) {
         this.bitset = bitSet;
     }

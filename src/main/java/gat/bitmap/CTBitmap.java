@@ -33,13 +33,24 @@ import java.util.Base64;
 import java.util.List;
 
 public class CTBitmap extends BaseCustomType {
+
+    //Name declared for the Plugin
+    public static final String NAME = "BitMap";
+
+    //Name Of the attribute
     private static final String BITS = "bits";
     private static final int BITS_H = HashHelper.hash(BITS);
-    public static final String NAME = "BitMap";
-    private String gBits;
+
+
     private RoaringBitmap bitmap;
     private EStruct root;
 
+    /**
+     * Constructor that will look for a root node, if not existing will create a new one.
+     * Then will look for the serialized form of the bitmap in the BITS attribute and deserialize it, if none is existing
+     * then a new BitMap is created.
+     * @param backend
+     */
     public CTBitmap(EStructArray backend) {
         super(backend);
         root = backend.root();
@@ -47,7 +58,7 @@ public class CTBitmap extends BaseCustomType {
             root = backend.newEStruct();
             backend.setRoot(root);
         }
-        gBits = (String) root.getAt(BITS_H);
+        String gBits = (String) root.getAt(BITS_H);
         if (gBits != null) {
             ByteBuffer newbb = ByteBuffer.wrap(Base64.getDecoder().decode(gBits));
             bitmap = new ImmutableRoaringBitmap(newbb).toRoaringBitmap();
@@ -56,6 +67,10 @@ public class CTBitmap extends BaseCustomType {
         }
     }
 
+    /**
+     * save the current bitmap by serializing it and store it in the BITS attribute of the root node.
+     * Must be called by the user whenever done with the modification of the bitmap
+     */
     public void save() {
         bitmap.runOptimize();
         ByteBuffer outbb = ByteBuffer.allocate(bitmap.serializedSizeInBytes());
@@ -95,55 +110,94 @@ public class CTBitmap extends BaseCustomType {
 
     }
 
+    /**
+     * getter for the bitmap
+     * @return the bitmap
+     */
     public RoaringBitmap getBitMap() {
         return bitmap;
     }
 
+    /**
+     * Setter for the bitmap, to use in case a new bitmap was created and should be saved instead of the former one.
+     * @param bitmap
+     */
     public void setBitmap(RoaringBitmap bitmap) {
         this.bitmap = bitmap;
     }
 
+    /**
+     * Clear the bitmap
+     */
     public void clear() {
         root.setAt(BITS_H, Type.STRING, "");
         bitmap.clear();
     }
 
-
-    public boolean add(int index) {
+    /**
+     * Set the bit at index to one
+     * @param index
+     * @return true if done false if already set
+     */
+    public boolean set(int index) {
         return bitmap.checkedAdd(index);
     }
 
-
-    public boolean addAll(List<Integer> indexs) {
-        bitmap.add(indexs.stream().mapToInt(i -> i).toArray());
-        return true;
+    /**
+     * Set all bit present in the array indexs to one
+     * @param indexs
+     */
+    public void setAll(int... indexs) {
+        bitmap.add(indexs);
     }
 
-
-    public void clear(int index) {
-        bitmap.checkedRemove(index);
+    /**
+     * Unset the bit at the given index
+     * @param index
+     * @return true if done false if already unset
+     */
+    public boolean unset(int index) {
+        return bitmap.checkedRemove(index);
     }
 
-
+    /**
+     * @return the size of the bitmap
+     */
     public int size() {
         return bitmap.last() + 1;
     }
 
-
+    /**
+     * @return the cardinality, i.e., the number of bit set, in the bitmap
+     */
     public int cardinality() {
         return bitmap.getCardinality();
     }
 
+    /**
+     * determine whether the bit at index is set or not
+     * @param index
+     * @return
+     */
     public boolean get(int index) {
         return bitmap.contains(index);
     }
 
+    /**
+     * determine the next set bit after startIndex
+     * @param startIndex
+     * @return
+     */
     public int nextSetBit(int startIndex) {
         PeekableIntIterator iterator = bitmap.getIntIterator();
         iterator.advanceIfNeeded(startIndex);
         return iterator.peekNext();
     }
 
+    /**
+     * Iterator over the set bits
+     * @return
+     */
     public IntIterator iterator() {
         return bitmap.getIntIterator();
     }
